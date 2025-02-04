@@ -1,0 +1,1 @@
+export const BACKEND_URL="https://backend.avirupghosal2023.workers.dev";
