@@ -6,7 +6,7 @@ import { useBlogs } from "../hooks"
 export const Blogs=()=>{
     const{loading,blogs}=useBlogs();
     if(loading){
-        return <div>
+        return <div className="bg-[#E7E0D3]">
             <Appbar></Appbar>
             <div className="flex justify-center">
             <div>
@@ -20,7 +20,7 @@ export const Blogs=()=>{
     }
     {console.log(blogs)}
 
-    return <div>
+    return <div className="bg-[#E7E0D3] min-h-screen w-screen">
         <Appbar></Appbar>
     <div className="flex justify-center">
         <div className="max-w-xl">
