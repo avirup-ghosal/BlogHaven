@@ -122,3 +122,38 @@ blogRouter.get('/:id',async (c)=>{
     })
 }
 })
+
+blogRouter.get('/paginated', async (c) => {
+    const page = Number(c.req.query('page')) || 1;
+    const pageSize = 10;
+    const skip = (page - 1) * pageSize;
+
+    const prisma = new PrismaClient({
+        datasourceUrl: c.env.DATABASE_URL,
+    }).$extends(withAccelerate());
+
+    const blogs = await prisma.blog.findMany({
+        skip,
+        take: pageSize,
+        select: {
+            id: true,
+            title: true,
+            content: true,
+            author: {
+                select: {
+                    name: true,
+                },
+            },
+        },
+    });
+
+    const totalBlogs = await prisma.blog.count();
+    const totalPages = Math.ceil(totalBlogs / pageSize);
+
+    return c.json({
+        blogs,
+        totalPages,
+        currentPage: page,
+        pageSize,
+    });
+});
